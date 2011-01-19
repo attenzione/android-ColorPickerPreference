@@ -25,9 +25,9 @@ Usage
 
 ::
 
-<com.att.preference.colorpicker.ColorPickerPreference
-    android:key="color1"
-    android:title="@string/color1_title"
-    android:summary="@string/color1_summary"
-    android:defaultValue="@integer/COLOR_BLACK"
-/>
+    <com.att.preference.colorpicker.ColorPickerPreference
+        android:key="color1"
+        android:title="@string/color1_title"
+        android:summary="@string/color1_summary"
+        android:defaultValue="@integer/COLOR_BLACK"
+    />
