@@ -36,4 +36,5 @@ Screens
 =======
 
 .. image:: https://github.com/attenzione/android-ColorPickerPreference/raw/master/screen_1.png
+
 .. image:: https://github.com/attenzione/android-ColorPickerPreference/raw/master/screen_2.png
