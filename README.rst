@@ -31,3 +31,8 @@ Usage
         android:summary="@string/color1_summary"
         android:defaultValue="@integer/COLOR_BLACK"
     />
+
+Screens
+=======
+
+.. image:: https://github.com/attenzione/android-ColorPickerPreference/raw/master/screen_1.png
