@@ -2,9 +2,9 @@
 ColorPickerPreference
 ====================
 
-Generally used classes by Daniel Nilsson
-ColorPickerPreference class by Sergey Margaritov
-Packed by Sergey Margaritov
+|Generally used classes by Daniel Nilsson
+|ColorPickerPreference class by Sergey Margaritov
+|Packed by Sergey Margaritov
 
 Features
 ========
