@@ -9,6 +9,7 @@ Packed by Sergey Margaritov
 Features
 ========
 
+* Color Area
 * Hue Slider
 * Alpha Slider
 * Old & New Color
@@ -21,6 +22,8 @@ Tested with APIv7, but maybe will work with early versions
 
 Usage
 =====
+
+::
 
 <com.att.preference.colorpicker.ColorPickerPreference
     android:key="color1"
