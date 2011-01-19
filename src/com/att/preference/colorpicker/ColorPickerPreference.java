@@ -1,0 +1,213 @@
+/*
+ * Copyright (C) 2009 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.att.preference.colorpicker;
+
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.Bitmap.Config;
+import android.preference.Preference;
+import android.util.AttributeSet;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+/**
+ * A preference type that allows a user to choose a time
+ * @author Sergey Margaritov
+ */
+public class ColorPickerPreference 
+	extends 
+		Preference 
+	implements 
+		Preference.OnPreferenceClickListener, 
+		ColorPickerDialog.OnColorChangedListener {
+ 
+	View mView;
+	ImageView iView;
+	int mDefaultValue = Color.BLACK;
+	private int mValue = Color.BLACK; 
+	private float mDensity = 0;
+	
+	private static final String androidns = "http://schemas.android.com/apk/res/android";
+	
+	
+	public ColorPickerPreference(Context context) {
+		super(context);
+		init(context, null);
+	}
+	
+	public ColorPickerPreference(Context context, AttributeSet attrs) {
+		super(context, attrs);
+		init(context, attrs);
+	}
+ 
+	public ColorPickerPreference(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context, attrs);
+	}
+	
+	private void init(Context context, AttributeSet attrs) {
+		mDensity = getContext().getResources().getDisplayMetrics().density;
+		setOnPreferenceClickListener(this);
+		if (attrs != null) {
+			int resourceId = attrs.getAttributeResourceValue(androidns, "defaultValue", 0);
+			if (resourceId != 0) {
+				mDefaultValue = context.getResources().getInteger(resourceId);
+			}
+		}
+		mValue = mDefaultValue;
+	}
+	
+	@Override
+	protected void onBindView(View view) {
+		super.onBindView(view);
+		mView = view;
+		setPreviewColor();
+	}
+	
+	private void setPreviewColor() {
+		if (mView == null) return;
+		if (iView == null) {
+			iView = new ImageView(getContext());
+			LinearLayout widgetFrameView = ((LinearLayout)mView.findViewById(android.R.id.widget_frame));
+			if (widgetFrameView == null) return;
+			widgetFrameView.setPadding(
+				widgetFrameView.getPaddingLeft(), 
+				widgetFrameView.getPaddingTop(), 
+				(int)(mDensity * 8), 
+				widgetFrameView.getPaddingBottom()
+			);
+			widgetFrameView.addView(iView);
+			iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
+		}
+		iView.setImageBitmap(getPreviewBitmap());
+	}
+	
+	private Bitmap getPreviewBitmap() {
+		int d = (int) (mDensity * 31); //30dip
+		int color = getValue();
+		Bitmap bm = Bitmap.createBitmap(d, d, Config.ARGB_8888);
+		int w = bm.getWidth();
+		int h = bm.getHeight();
+		int c = color;
+		for (int i = 0; i < w; i++) {
+			for (int j = i; j < h; j++) {
+				c = (i <= 1 || j <= 1 || i >= w-2 || j >= h-2) ? Color.GRAY : color;
+				bm.setPixel(i, j, c);
+				if (i != j) {
+					bm.setPixel(j, i, c);
+				}
+			}
+		}
+		
+		return bm;
+	}
+	
+	public int getValue() {
+		try {
+			if (isPersistent()) {
+				mValue = getPersistedInt(mDefaultValue);
+			} 
+		} catch (ClassCastException e) {
+			mValue = mDefaultValue;
+		}
+		
+		return mValue;
+	}
+
+	@Override
+	public void onColorChanged(int color) {
+		if (isPersistent()) {
+			persistInt(color);
+		}
+		mValue = color;
+		setPreviewColor();
+		try {
+			getOnPreferenceChangeListener().onPreferenceChange(this, color);
+		} catch (NullPointerException e) {
+			
+		}
+	}
+	
+	public boolean onPreferenceClick(Preference preference) {
+		ColorPickerDialog picker = new ColorPickerDialog(getContext(), getValue());
+		picker.show();
+		picker.setOnColorChangedListener(this);
+		// make Alpha Slider always visible
+		picker.setAlphaSliderVisible(true);
+		
+		return false;
+	}
+	
+	/**
+	 * For custom purposes. Not used by ColorPickerPreferrence
+	 * @param color
+	 * @author Unknown
+	 */
+    public static String convertToARGB(int color) {
+        String alpha = Integer.toHexString(Color.alpha(color));
+        String red = Integer.toHexString(Color.red(color));
+        String green = Integer.toHexString(Color.green(color));
+        String blue = Integer.toHexString(Color.blue(color));        
+        
+        if (alpha.length() == 1) {
+            alpha = "0" + alpha;
+        }
+        
+        if (red.length() == 1) {
+            red = "0" + red;
+        }
+        
+        if (green.length() == 1) {
+            green = "0" + green;
+        }
+        
+        if (blue.length() == 1) {
+            blue = "0" + blue;
+        }
+        
+        return "#" + alpha + red + green + blue;
+    }
+    
+    /**
+     * For custom purposes. Not used by ColorPickerPreferrence
+     * @param argb	
+     * @throws NumberFormatException
+     * @author Unknown
+     */
+    public static int convertToColorInt(String argb) throws NumberFormatException {       
+        
+        int alpha = -1, red = -1, green = -1, blue = -1;
+            
+        if (argb.length() == 8) {
+            alpha = Integer.parseInt(argb.substring(0, 2), 16);
+            red = Integer.parseInt(argb.substring(2, 4), 16);
+            green = Integer.parseInt(argb.substring(4, 6), 16);
+            blue = Integer.parseInt(argb.substring(6, 8), 16);
+        }
+        else if (argb.length() == 6) {
+            alpha = 255;
+            red = Integer.parseInt(argb.substring(0, 2), 16);
+            green = Integer.parseInt(argb.substring(2, 4), 16);
+            blue = Integer.parseInt(argb.substring(4, 6), 16);
+        }
+        
+        return Color.argb(alpha, red, green, blue);        
+    }
+
+}
