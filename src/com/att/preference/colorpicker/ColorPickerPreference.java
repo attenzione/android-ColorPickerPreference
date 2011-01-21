@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.Bitmap.Config;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,13 +39,11 @@ public class ColorPickerPreference
 		ColorPickerDialog.OnColorChangedListener {
  
 	View mView;
-	ImageView iView;
 	int mDefaultValue = Color.BLACK;
 	private int mValue = Color.BLACK; 
 	private float mDensity = 0;
 	
 	private static final String androidns = "http://schemas.android.com/apk/res/android";
-	
 	
 	public ColorPickerPreference(Context context) {
 		super(context);
@@ -82,19 +81,22 @@ public class ColorPickerPreference
 	
 	private void setPreviewColor() {
 		if (mView == null) return;
-		if (iView == null) {
-			iView = new ImageView(getContext());
-			LinearLayout widgetFrameView = ((LinearLayout)mView.findViewById(android.R.id.widget_frame));
-			if (widgetFrameView == null) return;
-			widgetFrameView.setPadding(
-				widgetFrameView.getPaddingLeft(), 
-				widgetFrameView.getPaddingTop(), 
-				(int)(mDensity * 8), 
-				widgetFrameView.getPaddingBottom()
-			);
-			widgetFrameView.addView(iView);
-			iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
+		ImageView iView = new ImageView(getContext());
+		LinearLayout widgetFrameView = ((LinearLayout)mView.findViewById(android.R.id.widget_frame));
+		if (widgetFrameView == null) return;
+		widgetFrameView.setPadding(
+			widgetFrameView.getPaddingLeft(), 
+			widgetFrameView.getPaddingTop(), 
+			(int)(mDensity * 8), 
+			widgetFrameView.getPaddingBottom()
+		);
+		// remove already create preview image
+		int count = widgetFrameView.getChildCount();
+		if (count > 0) {
+			widgetFrameView.removeViews(0, count);
 		}
+		widgetFrameView.addView(iView);
+		iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
 		iView.setImageBitmap(getPreviewBitmap());
 	}
 	
