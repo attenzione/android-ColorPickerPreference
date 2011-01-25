@@ -20,7 +20,6 @@ import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.PreferenceActivity;
-import android.util.Log;
 
 public class Test extends PreferenceActivity {
     /** Called when the activity is first created. */
@@ -32,10 +31,11 @@ public class Test extends PreferenceActivity {
 
 			@Override
 			public boolean onPreferenceChange(Preference preference, Object newValue) {
-				Log.e("COLOR", newValue + "");
+				preference.setSummary(ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue))));
 				return true;
 			}
         	
         });
+        ((ColorPickerPreference)findPreference("color2")).setAlphaSliderEnabled(true);
     }
 }

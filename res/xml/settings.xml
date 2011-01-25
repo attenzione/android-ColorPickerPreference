@@ -14,5 +14,19 @@
 			android:summary="@string/color2_summary"
 			android:defaultValue="@integer/COLOR_GREEN" 
 		/>
+		<com.att.preference.colorpicker.ColorPickerPreference 
+			android:key="color3"
+			android:title="@string/color3_title" 
+			android:summary="@string/color3_summary"
+			android:defaultValue="@integer/COLOR_GREEN"
+			alphaSlider="true" 
+		/>
+		<com.att.preference.colorpicker.ColorPickerPreference 
+			android:key="color4"
+			android:persistent="false"
+			android:title="@string/color4_title" 
+			android:summary="@string/color4_summary"
+			android:defaultValue="#0000FF"
+		/>
 	</PreferenceCategory>
 </PreferenceScreen>

@@ -22,6 +22,7 @@ import android.graphics.Color;
 import android.graphics.Bitmap.Config;
 import android.preference.Preference;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -41,6 +42,7 @@ public class ColorPickerPreference
 	int mDefaultValue = Color.BLACK;
 	private int mValue = Color.BLACK; 
 	private float mDensity = 0;
+	private boolean mAlphaSliderEnabled = false;
 	
 	private static final String androidns = "http://schemas.android.com/apk/res/android";
 	
@@ -63,10 +65,21 @@ public class ColorPickerPreference
 		mDensity = getContext().getResources().getDisplayMetrics().density;
 		setOnPreferenceClickListener(this);
 		if (attrs != null) {
-			int resourceId = attrs.getAttributeResourceValue(androidns, "defaultValue", 0);
-			if (resourceId != 0) {
-				mDefaultValue = context.getResources().getInteger(resourceId);
+			String defaultValue = attrs.getAttributeValue(androidns, "defaultValue");
+			if (defaultValue.startsWith("#")) {
+				try {
+					mDefaultValue = convertToColorInt(defaultValue);
+				} catch (NumberFormatException e) {
+					Log.e("ColorPickerPreference", "Wrong color: " + defaultValue);
+					mDefaultValue = convertToColorInt("#FF000000");
+				}
+			} else {
+				int resourceId = attrs.getAttributeResourceValue(androidns, "defaultValue", 0);
+				if (resourceId != 0) {
+					mDefaultValue = context.getResources().getInteger(resourceId);
+				}
 			}
+			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
 		}
 		mValue = mDefaultValue;
 	}
@@ -149,10 +162,19 @@ public class ColorPickerPreference
 		ColorPickerDialog picker = new ColorPickerDialog(getContext(), getValue());
 		picker.show();
 		picker.setOnColorChangedListener(this);
-		// make Alpha Slider always visible
-		picker.setAlphaSliderVisible(true);
+		if (mAlphaSliderEnabled) {
+			picker.setAlphaSliderVisible(true);
+		}
 		
 		return false;
+	}
+	
+	/**
+	 * Toggle Alpha Slider visibility (by default it's disabled)
+	 * @param enable
+	 */
+	public void setAlphaSliderEnabled(boolean enable) {
+		mAlphaSliderEnabled = enable;
 	}
 	
 	/**
@@ -193,6 +215,10 @@ public class ColorPickerPreference
      */
     public static int convertToColorInt(String argb) throws NumberFormatException {       
         
+    	if (argb.startsWith("#")) {
+    		argb = argb.replace("#", "");
+    	}
+    	
         int alpha = -1, red = -1, green = -1, blue = -1;
             
         if (argb.length() == 8) {

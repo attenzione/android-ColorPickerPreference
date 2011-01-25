@@ -1,6 +1,6 @@
-====================
+=====================
 ColorPickerPreference
-====================
+=====================
 
 Generally used classes by Daniel Nilsson.
 ColorPickerPreference class by Sergey Margaritov.
@@ -11,7 +11,7 @@ Features
 
 * Color Area
 * Hue Slider
-* Alpha Slider
+* Alpha Slider (disabled by default)
 * Old & New Color
 * Color Preview in Preferences List
 
@@ -23,14 +23,21 @@ Tested with APIv7, but maybe will work with early versions
 Usage
 =====
 
+You can see some tests inside
+
 ::
 
     <com.att.preference.colorpicker.ColorPickerPreference
         android:key="color1"
         android:title="@string/color1_title"
         android:summary="@string/color1_summary"
-        android:defaultValue="@integer/COLOR_BLACK"
+        android:defaultValue="@integer/COLOR_BLACK"     <!-- HEX value also accepted (v1.1) -->
+        alphaSlider="true"                              <!-- enable alpha slider via XML -->
     />
+
+To enable Alpha Slider in your code use function:
+::
+    setAlphaSliderEnabled(boolean enable)
 
 Screens
 =======
