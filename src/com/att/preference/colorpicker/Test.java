@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2009 The Android Open Source Project
+ * Copyright (C) 2011 Sergey Margaritov
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -34,7 +34,7 @@ public class Test extends PreferenceActivity {
 				preference.setSummary(ColorPickerPreference.convertToARGB(Integer.valueOf(String.valueOf(newValue))));
 				return true;
 			}
-        	
+
         });
         ((ColorPickerPreference)findPreference("color2")).setAlphaSliderEnabled(true);
     }
