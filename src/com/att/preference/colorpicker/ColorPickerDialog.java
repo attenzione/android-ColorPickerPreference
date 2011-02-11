@@ -41,7 +41,7 @@ public class ColorPickerDialog
 		public void onColorChanged(int color);
 	}
 	
-	protected ColorPickerDialog(Context context, int initialColor) {
+	public ColorPickerDialog(Context context, int initialColor) {
 		super(context);
 
 		init(initialColor);

@@ -5,6 +5,7 @@ ColorPickerPreference Change Log
 2011-02-11 v1.11:
 ----------------
 fix: color controls not visible in landscape orientation
+fix: colorPickerDialog constructor was protected
 
 2011-01-25 v1.1:
 ----------------
