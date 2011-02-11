@@ -647,29 +647,27 @@ public class ColorPickerView extends View {
 		return update;
 	}
 
-
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
 		int width = 0;
 		int height = 0;
-
+		
 		int widthMode = MeasureSpec.getMode(widthMeasureSpec);
 		int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-
+		
 		int widthAllowed = MeasureSpec.getSize(widthMeasureSpec);
 		int heightAllowed = MeasureSpec.getSize(heightMeasureSpec);
-
-
+		
 		widthAllowed = chooseWidth(widthMode, widthAllowed);
 		heightAllowed = chooseHeight(heightMode, heightAllowed);
-
-
+		
 		if(!mShowAlphaPanel){
+			
 			height = (int) (widthAllowed - PANEL_SPACING - HUE_PANEL_WIDTH);
 
 			//If calculated height (based on the width) is more than the allowed height.
-			if(height > heightAllowed){
+			if(height > heightAllowed || getTag().equals("landscape")) {
 				height = heightAllowed;
 				width = (int) (height + PANEL_SPACING + HUE_PANEL_WIDTH);
 			}
@@ -689,10 +687,8 @@ public class ColorPickerView extends View {
 				height = heightAllowed;
 			}
 
-
 		}
-
-
+		
 		setMeasuredDimension(width, height);
 	}
 
@@ -781,7 +777,7 @@ public class ColorPickerView extends View {
 		mHueRect = new RectF(left, top, right, bottom);
 	}
 
-	private void setUpAlphaRect(){
+	private void setUpAlphaRect() {
 
 		if(!mShowAlphaPanel) return;
 
@@ -794,13 +790,13 @@ public class ColorPickerView extends View {
 
 		mAlphaRect = new RectF(left, top, right, bottom);
 
-
 		mAlphaPattern = new AlphaPatternDrawable((int) (5 * mDensity));
-		mAlphaPattern.setBounds(Math.round(mAlphaRect.left), Math
-				.round(mAlphaRect.top), Math.round(mAlphaRect.right), Math
-				.round(mAlphaRect.bottom));
-
-
+		mAlphaPattern.setBounds(
+			Math.round(mAlphaRect.left), 
+			Math.round(mAlphaRect.top), 
+			Math.round(mAlphaRect.right), 
+			Math.round(mAlphaRect.bottom)
+		);
 
 	}
 

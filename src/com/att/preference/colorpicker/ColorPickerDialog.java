@@ -58,22 +58,23 @@ public class ColorPickerDialog
 	private void setUp(int color) {
 		
 		LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		
 		View layout = inflater.inflate(R.layout.dialog_color_picker, null);
 
 		setContentView(layout);
 
 		setTitle(R.string.dialog_color_picker);
-
+		
 		mColorPicker = (ColorPickerView) layout.findViewById(R.id.color_picker_view);
 		mOldColor = (ColorPickerPanelView) layout.findViewById(R.id.old_color_panel);
 		mNewColor = (ColorPickerPanelView) layout.findViewById(R.id.new_color_panel);
-
+		
 		((LinearLayout) mOldColor.getParent()).setPadding(
 			Math.round(mColorPicker.getDrawingOffset()), 
 			0, 
 			Math.round(mColorPicker.getDrawingOffset()), 
 			0
-		);
+		);	
 		
 		mOldColor.setOnClickListener(this);
 		mNewColor.setOnClickListener(this);

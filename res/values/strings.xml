@@ -5,7 +5,8 @@
     <string name="app_name">ColorPickerPreference</string>
     
     <!-- Color Picker -->
-    <string name="dialog_color_picker">Color Picker</string>    
+    <string name="dialog_color_picker">Color Picker</string>
+    <string name="press_color_to_apply">Press on Color to apply</string>    
     
     <!-- Preferences -->
     <string name="pref_category">Category</string>

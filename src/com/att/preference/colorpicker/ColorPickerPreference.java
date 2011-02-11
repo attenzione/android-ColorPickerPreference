@@ -160,11 +160,11 @@ public class ColorPickerPreference
 
 	public boolean onPreferenceClick(Preference preference) {
 		ColorPickerDialog picker = new ColorPickerDialog(getContext(), getValue());
-		picker.show();
 		picker.setOnColorChangedListener(this);
 		if (mAlphaSliderEnabled) {
 			picker.setAlphaSliderVisible(true);
 		}
+		picker.show();
 
 		return false;
 	}
