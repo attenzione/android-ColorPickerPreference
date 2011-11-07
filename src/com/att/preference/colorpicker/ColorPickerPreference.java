@@ -60,6 +60,11 @@ public class ColorPickerPreference
 		super(context, attrs, defStyle);
 		init(context, attrs);
 	}
+	
+	@Override
+	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
+		onColorChanged(restoreValue ? getValue() : (Integer) defaultValue);
+	}
 
 	private void init(Context context, AttributeSet attrs) {
 		mDensity = getContext().getResources().getDisplayMetrics().density;
