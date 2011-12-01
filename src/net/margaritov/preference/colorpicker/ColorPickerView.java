@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.att.preference.colorpicker;
+package net.margaritov.preference.colorpicker;
 
 import android.content.Context;
 import android.graphics.Canvas;

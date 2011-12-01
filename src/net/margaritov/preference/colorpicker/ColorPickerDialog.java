@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 
-package com.att.preference.colorpicker;
+package net.margaritov.preference.colorpicker;
+
+import com.att.preference.colorpicker.R;
 
 import android.app.Dialog;
 import android.content.Context;
