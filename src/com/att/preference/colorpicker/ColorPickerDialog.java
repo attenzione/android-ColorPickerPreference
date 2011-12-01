@@ -116,14 +116,11 @@ public class ColorPickerDialog
 
 	@Override
 	public void onClick(View v) {
-		switch(v.getId()) {
-			case R.id.old_color_panel:
-				break;
-			case R.id.new_color_panel:
-				if (mListener != null) {
-					mListener.onColorChanged(mNewColor.getColor());
-				}
-				break;
+		if (v.getId() == R.id.old_color_panel) {
+		} else if (v.getId() == R.id.new_color_panel) {
+			if (mListener != null) {
+				mListener.onColorChanged(mNewColor.getColor());
+			}
 		}
 		dismiss();
 	}
