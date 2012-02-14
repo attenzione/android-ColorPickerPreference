@@ -101,6 +101,7 @@ public class ColorPickerPreference
 		ImageView iView = new ImageView(getContext());
 		LinearLayout widgetFrameView = ((LinearLayout)mView.findViewById(android.R.id.widget_frame));
 		if (widgetFrameView == null) return;
+		widgetFrameView.setVisibility(View.VISIBLE);
 		widgetFrameView.setPadding(
 			widgetFrameView.getPaddingLeft(),
 			widgetFrameView.getPaddingTop(),
