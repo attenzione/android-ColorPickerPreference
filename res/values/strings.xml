@@ -18,4 +18,5 @@
     <string name="color3_summary">picker with alpha slider</string>
     <string name="color4_title">Color 4</string>
     <string name="color4_summary">color set with HEX code in xml</string>
+    <string name="color_text_edit_rgba">RGBA:</string><string name="color_text_edit_rgb">RGB:</string>
 </resources>

@@ -18,26 +18,38 @@ package net.margaritov.preference.colorpicker;
 
 import net.margaritov.preference.colorpicker.R;
 
+import android.R.color;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class ColorPickerDialog 
 	extends 
 		Dialog 
 	implements
 		ColorPickerView.OnColorChangedListener,
-		View.OnClickListener {
+		View.OnClickListener, TextWatcher {
 
 	private ColorPickerView mColorPicker;
 
 	private ColorPickerPanelView mOldColor;
 	private ColorPickerPanelView mNewColor;
 
-	private OnColorChangedListener mListener;
+	private TextView mColorTextEditLabel;
+  private EditText mRedEditText;
+  private EditText mGreenEditText;
+  private EditText mBlueEditText;
+  private EditText mAlphaEditText;
+
+  private OnColorChangedListener mListener;
 
 	public interface OnColorChangedListener {
 		public void onColorChanged(int color);
@@ -70,6 +82,11 @@ public class ColorPickerDialog
 		mColorPicker = (ColorPickerView) layout.findViewById(R.id.color_picker_view);
 		mOldColor = (ColorPickerPanelView) layout.findViewById(R.id.old_color_panel);
 		mNewColor = (ColorPickerPanelView) layout.findViewById(R.id.new_color_panel);
+		mColorTextEditLabel = (TextView) layout.findViewById(R.id.color_text_edit_label);
+    mRedEditText = (EditText) layout.findViewById(R.id.red_edit_text);
+    mGreenEditText = (EditText) layout.findViewById(R.id.green_edit_text);
+    mBlueEditText = (EditText) layout.findViewById(R.id.blue_edit_text);
+    mAlphaEditText = (EditText) layout.findViewById(R.id.alpha_edit_text);
 		
 		((LinearLayout) mOldColor.getParent()).setPadding(
 			Math.round(mColorPicker.getDrawingOffset()), 
@@ -83,6 +100,12 @@ public class ColorPickerDialog
 		mColorPicker.setOnColorChangedListener(this);
 		mOldColor.setColor(color);
 		mColorPicker.setColor(color, true);
+		
+		mAlphaEditText.addTextChangedListener(this);
+    mRedEditText.addTextChangedListener(this);
+    mGreenEditText.addTextChangedListener(this);
+    mBlueEditText.addTextChangedListener(this);
+    onColorChanged(color);
 
 	}
 
@@ -90,6 +113,10 @@ public class ColorPickerDialog
 	public void onColorChanged(int color) {
 
 		mNewColor.setColor(color);
+    mAlphaEditText.setText(String.valueOf((color>>24)&0xFF));
+    mRedEditText.setText(String.valueOf((color>>16)&0xFF));
+    mGreenEditText.setText(String.valueOf((color>>8)&0xFF));
+    mBlueEditText.setText(String.valueOf((color>>0)&0xFF));
 
 		/*
 		if (mListener != null) {
@@ -101,6 +128,13 @@ public class ColorPickerDialog
 
 	public void setAlphaSliderVisible(boolean visible) {
 		mColorPicker.setAlphaSliderVisible(visible);
+		if (visible) {
+		  mAlphaEditText.setVisibility(EditText.VISIBLE);
+		  mColorTextEditLabel.setText(R.string.color_text_edit_rgba);
+		} else {
+      mAlphaEditText.setVisibility(EditText.INVISIBLE);
+      mColorTextEditLabel.setText(R.string.color_text_edit_rgb);
+		}
 	}
 	
 	/**
@@ -125,5 +159,42 @@ public class ColorPickerDialog
 		}
 		dismiss();
 	}
+
+	int updateColorComponent(int pos, String value, int color) {
+	  int valueNumber;
+    if (value.equals("")) {
+      valueNumber = 0;
+    } else {
+      valueNumber = Integer.valueOf(value);
+    }
+    if (valueNumber>255)
+      valueNumber=255;
+    if (valueNumber<0)
+      valueNumber=0;
+    int mask = 0xFF << pos;
+    mask = ~mask;
+    color = color & mask;
+    color = color | (valueNumber<<pos);
+    return color;
+	}
+	
+  @Override
+  public void afterTextChanged(Editable s) {
+    int color = getColor();
+    color = updateColorComponent(24, mAlphaEditText.getText().toString(), color);
+    color = updateColorComponent(16, mRedEditText.getText().toString(), color);
+    color = updateColorComponent(8, mGreenEditText.getText().toString(), color);
+    color = updateColorComponent(0, mBlueEditText.getText().toString(), color);
+    mNewColor.setColor(color);
+    mColorPicker.setColor(color);
+  }
+
+  @Override
+  public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+  }
+
+  @Override
+  public void onTextChanged(CharSequence s, int start, int before, int count) {
+  }
 	
 }
