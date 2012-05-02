@@ -28,6 +28,7 @@
 		android:layout_height="wrap_content"
 		android:layout_centerHorizontal="true"
 		android:tag="portrait"
+		android:layerType="software"
 	/>
 	
 	<TextView
