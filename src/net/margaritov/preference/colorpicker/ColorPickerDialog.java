@@ -50,7 +50,7 @@ public class ColorPickerDialog
 	}
 
 	private void init(int color) {
-		// To fight color branding.
+		// To fight color banding.
 		getWindow().setFormat(PixelFormat.RGBA_8888);
 
 		setUp(color);
