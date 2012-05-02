@@ -114,6 +114,7 @@ public class ColorPickerPreference
 			widgetFrameView.removeViews(0, count);
 		}
 		widgetFrameView.addView(iView);
+		widgetFrameView.setMinimumWidth(0);
 		iView.setBackgroundDrawable(new AlphaPatternDrawable((int)(5 * mDensity)));
 		iView.setImageBitmap(getPreviewBitmap());
 	}
