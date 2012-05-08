@@ -18,8 +18,11 @@ package net.margaritov.preference.colorpicker;
 
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.Bitmap.Config;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -39,6 +42,7 @@ public class ColorPickerPreference
 		ColorPickerDialog.OnColorChangedListener {
 
 	View mView;
+	ColorPickerDialog mDialog;
 	int mDefaultValue = Color.BLACK;
 	private int mValue = Color.BLACK;
 	private float mDensity = 0;
@@ -166,14 +170,20 @@ public class ColorPickerPreference
 	}
 
 	public boolean onPreferenceClick(Preference preference) {
-		ColorPickerDialog picker = new ColorPickerDialog(getContext(), getValue());
-		picker.setOnColorChangedListener(this);
-		if (mAlphaSliderEnabled) {
-			picker.setAlphaSliderVisible(true);
-		}
-		picker.show();
-
+		showDialog(null);
 		return false;
+	}
+	
+	protected void showDialog(Bundle state) {
+		mDialog = new ColorPickerDialog(getContext(), getValue());
+		mDialog.setOnColorChangedListener(this);
+		if (mAlphaSliderEnabled) {
+			mDialog.setAlphaSliderVisible(true);
+		}
+		if (state != null) {
+			mDialog.onRestoreInstanceState(state);
+		}
+		mDialog.show();
 	}
 
 	/**
@@ -243,5 +253,60 @@ public class ColorPickerPreference
 
         return Color.argb(alpha, red, green, blue);
     }
+    
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        final Parcelable superState = super.onSaveInstanceState();
+        if (mDialog == null || !mDialog.isShowing()) {
+            return superState;
+        }
 
+        final SavedState myState = new SavedState(superState);
+        myState.dialogBundle = mDialog.onSaveInstanceState();
+        return myState;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        if (state == null || !(state instanceof SavedState)) {
+            // Didn't save state for us in onSaveInstanceState
+            super.onRestoreInstanceState(state);
+            return;
+        }
+
+        SavedState myState = (SavedState) state;
+        super.onRestoreInstanceState(myState.getSuperState());
+        showDialog(myState.dialogBundle);
+    }
+
+    private static class SavedState extends BaseSavedState {
+        Bundle dialogBundle;
+        
+        public SavedState(Parcel source) {
+            super(source);
+            dialogBundle = source.readBundle();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeBundle(dialogBundle);
+        }
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+        
+        @SuppressWarnings("unused")
+        public static final Parcelable.Creator<SavedState> CREATOR =
+                new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
+    }
 }

@@ -16,11 +16,10 @@
 
 package net.margaritov.preference.colorpicker;
 
-import net.margaritov.preference.colorpicker.R;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.PixelFormat;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -126,4 +125,18 @@ public class ColorPickerDialog
 		dismiss();
 	}
 	
+	@Override
+	public Bundle onSaveInstanceState() {
+		Bundle state = super.onSaveInstanceState();
+		state.putInt("old_color", mOldColor.getColor());
+		state.putInt("new_color", mNewColor.getColor());
+		return state;
+	}
+	
+	@Override
+	public void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+		mOldColor.setColor(savedInstanceState.getInt("old_color"));
+		mColorPicker.setColor(savedInstanceState.getInt("new_color"), true);
+	}
 }
