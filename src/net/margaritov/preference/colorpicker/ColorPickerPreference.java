@@ -17,6 +17,7 @@
 package net.margaritov.preference.colorpicker;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
@@ -25,7 +26,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.preference.Preference;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,12 +43,9 @@ public class ColorPickerPreference
 
 	View mView;
 	ColorPickerDialog mDialog;
-	int mDefaultValue = Color.BLACK;
 	private int mValue = Color.BLACK;
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
-
-	private static final String androidns = "http://schemas.android.com/apk/res/android";
 
 	public ColorPickerPreference(Context context) {
 		super(context);
@@ -64,33 +61,23 @@ public class ColorPickerPreference
 		super(context, attrs, defStyle);
 		init(context, attrs);
 	}
-	
+
+	@Override
+	protected Object onGetDefaultValue(TypedArray a, int index) {
+		return a.getInt(index, Color.BLACK);
+	}
+
 	@Override
 	protected void onSetInitialValue(boolean restoreValue, Object defaultValue) {
-		onColorChanged(restoreValue ? getValue() : (Integer) defaultValue);
+		onColorChanged(restoreValue ? getPersistedInt(mValue) : (Integer) defaultValue);
 	}
 
 	private void init(Context context, AttributeSet attrs) {
 		mDensity = getContext().getResources().getDisplayMetrics().density;
 		setOnPreferenceClickListener(this);
 		if (attrs != null) {
-			String defaultValue = attrs.getAttributeValue(androidns, "defaultValue");
-			if (defaultValue.startsWith("#")) {
-				try {
-					mDefaultValue = convertToColorInt(defaultValue);
-				} catch (NumberFormatException e) {
-					Log.e("ColorPickerPreference", "Wrong color: " + defaultValue);
-					mDefaultValue = convertToColorInt("#FF000000");
-				}
-			} else {
-				int resourceId = attrs.getAttributeResourceValue(androidns, "defaultValue", 0);
-				if (resourceId != 0) {
-					mDefaultValue = context.getResources().getInteger(resourceId);
-				}
-			}
 			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
 		}
-		mValue = mDefaultValue;
 	}
 
 	@Override
@@ -125,7 +112,7 @@ public class ColorPickerPreference
 
 	private Bitmap getPreviewBitmap() {
 		int d = (int) (mDensity * 31); //30dip
-		int color = getValue();
+		int color = mValue;
 		Bitmap bm = Bitmap.createBitmap(d, d, Config.ARGB_8888);
 		int w = bm.getWidth();
 		int h = bm.getHeight();
@@ -141,18 +128,6 @@ public class ColorPickerPreference
 		}
 
 		return bm;
-	}
-
-	public int getValue() {
-		try {
-			if (isPersistent()) {
-				mValue = getPersistedInt(mDefaultValue);
-			}
-		} catch (ClassCastException e) {
-			mValue = mDefaultValue;
-		}
-
-		return mValue;
 	}
 
 	@Override
@@ -175,7 +150,7 @@ public class ColorPickerPreference
 	}
 	
 	protected void showDialog(Bundle state) {
-		mDialog = new ColorPickerDialog(getContext(), getValue());
+		mDialog = new ColorPickerDialog(getContext(), mValue);
 		mDialog.setOnColorChangedListener(this);
 		if (mAlphaSliderEnabled) {
 			mDialog.setAlphaSliderVisible(true);

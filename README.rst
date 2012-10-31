@@ -31,7 +31,7 @@ You can see some tests inside
         android:key="color1"
         android:title="@string/color1_title"
         android:summary="@string/color1_summary"
-        android:defaultValue="@integer/COLOR_BLACK"     <!-- HEX value also accepted (v1.1) -->
+        android:defaultValue="@integer/COLOR_BLACK"
         alphaSlider="true"                              <!-- enable alpha slider via XML -->
     />
 
