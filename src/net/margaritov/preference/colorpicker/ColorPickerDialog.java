@@ -18,10 +18,16 @@ package net.margaritov.preference.colorpicker;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 
 public class ColorPickerDialog 
@@ -35,6 +41,10 @@ public class ColorPickerDialog
 
 	private ColorPickerPanelView mOldColor;
 	private ColorPickerPanelView mNewColor;
+	
+	private EditText mHexVal;
+	private boolean mHexInternalTextChange;
+	private ColorStateList mHexDefaultTextColor;
 
 	private OnColorChangedListener mListener;
 
@@ -70,6 +80,30 @@ public class ColorPickerDialog
 		mOldColor = (ColorPickerPanelView) layout.findViewById(R.id.old_color_panel);
 		mNewColor = (ColorPickerPanelView) layout.findViewById(R.id.new_color_panel);
 		
+		mHexVal = (EditText) layout.findViewById(R.id.hex_val);
+		mHexDefaultTextColor = mHexVal.getTextColors();
+		mHexVal.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {}
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+			@Override
+			public void afterTextChanged(Editable s) {
+				if (mHexInternalTextChange) return;
+				
+				if (s.length() > 5 || s.length() < 10) {
+					try {
+						int c = ColorPickerPreference.convertToColorInt(s.toString());
+						mColorPicker.setColor(c, true);
+						mHexVal.setTextColor(mHexDefaultTextColor);
+					} catch (NumberFormatException e) {
+						mHexVal.setTextColor(Color.RED);
+					}
+				} else
+					mHexVal.setTextColor(Color.RED);
+			}
+		});
+		
 		((LinearLayout) mOldColor.getParent()).setPadding(
 			Math.round(mColorPicker.getDrawingOffset()), 
 			0, 
@@ -89,6 +123,7 @@ public class ColorPickerDialog
 	public void onColorChanged(int color) {
 
 		mNewColor.setColor(color);
+		updateHexValue(color);
 
 		/*
 		if (mListener != null) {
@@ -98,8 +133,27 @@ public class ColorPickerDialog
 
 	}
 
+	private void updateHexValue(int color) {
+		mHexInternalTextChange = true;
+		if (getAlphaSliderVisible())
+			mHexVal.setText(ColorPickerPreference.convertToARGB(color));
+		else
+			mHexVal.setText(ColorPickerPreference.convertToRGB(color));
+		mHexInternalTextChange = false;
+	}
+
 	public void setAlphaSliderVisible(boolean visible) {
 		mColorPicker.setAlphaSliderVisible(visible);
+		if (visible)
+			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(9)});
+		else
+			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(7)});
+		
+		updateHexValue(getColor());
+	}
+	
+	public boolean getAlphaSliderVisible() {
+		return mColorPicker.getAlphaSliderVisible();
 	}
 	
 	/**
