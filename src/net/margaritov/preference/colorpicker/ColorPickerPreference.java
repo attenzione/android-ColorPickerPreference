@@ -46,6 +46,7 @@ public class ColorPickerPreference
 	private int mValue = Color.BLACK;
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
+	private boolean mHexValueEnabled = false;
 
 	public ColorPickerPreference(Context context) {
 		super(context);
@@ -77,6 +78,7 @@ public class ColorPickerPreference
 		setOnPreferenceClickListener(this);
 		if (attrs != null) {
 			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
+			mHexValueEnabled = attrs.getAttributeBooleanValue(null, "hexValue", false);
 		}
 	}
 
@@ -155,6 +157,9 @@ public class ColorPickerPreference
 		if (mAlphaSliderEnabled) {
 			mDialog.setAlphaSliderVisible(true);
 		}
+		if (mHexValueEnabled) {
+			mDialog.setHexValueEnabled(true);
+		}
 		if (state != null) {
 			mDialog.onRestoreInstanceState(state);
 		}
@@ -167,6 +172,14 @@ public class ColorPickerPreference
 	 */
 	public void setAlphaSliderEnabled(boolean enable) {
 		mAlphaSliderEnabled = enable;
+	}
+
+	/**
+	 * Toggle Hex Value visibility (by default it's disabled)
+	 * @param enable
+	 */
+	public void setHexValueEnabled(boolean enable) {
+		mHexValueEnabled = enable;
 	}
 
 	/**
@@ -198,6 +211,33 @@ public class ColorPickerPreference
 
         return "#" + alpha + red + green + blue;
     }
+    
+    /**
+	 * For custom purposes. Not used by ColorPickerPreference
+	 * @param color
+	 * @author Charles Rosaaen
+	 * @return A string representing the hex value of color,
+	 * without the alpha value
+	 */
+    public static String convertToRGB(int color) {
+        String red = Integer.toHexString(Color.red(color));
+        String green = Integer.toHexString(Color.green(color));
+        String blue = Integer.toHexString(Color.blue(color));
+
+        if (red.length() == 1) {
+            red = "0" + red;
+        }
+
+        if (green.length() == 1) {
+            green = "0" + green;
+        }
+
+        if (blue.length() == 1) {
+            blue = "0" + blue;
+        }
+
+        return "#" + red + green + blue;
+    }
 
     /**
      * For custom purposes. Not used by ColorPickerPreferrence
@@ -225,6 +265,8 @@ public class ColorPickerPreference
             green = Integer.parseInt(argb.substring(2, 4), 16);
             blue = Integer.parseInt(argb.substring(4, 6), 16);
         }
+        else
+        	throw new NumberFormatException("string " + argb + "did not meet length requirements");
 
         return Color.argb(alpha, red, green, blue);
     }
