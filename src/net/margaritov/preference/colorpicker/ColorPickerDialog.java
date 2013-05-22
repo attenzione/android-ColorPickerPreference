@@ -44,6 +44,7 @@ public class ColorPickerDialog
 	
 	private EditText mHexVal;
 	private boolean mHexInternalTextChange;
+	private boolean mHexValueEnabled = false;
 	private ColorStateList mHexDefaultTextColor;
 
 	private OnColorChangedListener mListener;
@@ -89,18 +90,20 @@ public class ColorPickerDialog
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (mHexInternalTextChange) return;
-				
-				if (s.length() > 5 || s.length() < 10) {
-					try {
-						int c = ColorPickerPreference.convertToColorInt(s.toString());
-						mColorPicker.setColor(c, true);
-						mHexVal.setTextColor(mHexDefaultTextColor);
-					} catch (NumberFormatException e) {
+				if (mHexValueEnabled) {
+					if (mHexInternalTextChange) return;
+					
+					if (s.length() > 5 || s.length() < 10) {
+						try {
+							int c = ColorPickerPreference.convertToColorInt(s.toString());
+							mColorPicker.setColor(c, true);
+							mHexVal.setTextColor(mHexDefaultTextColor);
+						} catch (NumberFormatException e) {
+							mHexVal.setTextColor(Color.RED);
+						}
+					} else
 						mHexVal.setTextColor(Color.RED);
-					}
-				} else
-					mHexVal.setTextColor(Color.RED);
+				}
 			}
 		});
 		
@@ -123,7 +126,9 @@ public class ColorPickerDialog
 	public void onColorChanged(int color) {
 
 		mNewColor.setColor(color);
-		updateHexValue(color);
+		
+		if (mHexValueEnabled)
+			updateHexValue(color);
 
 		/*
 		if (mListener != null) {
@@ -131,6 +136,28 @@ public class ColorPickerDialog
 		}
 		*/
 
+	}
+	
+	public void setHexValueEnabled(boolean enable) {
+		mHexValueEnabled = enable;
+		if (enable) {
+			mHexVal.setVisibility(View.VISIBLE);
+			updateHexLengthFilter();
+			updateHexValue(getColor());
+		}
+		else
+			mHexVal.setVisibility(View.GONE);
+	}
+	
+	public boolean getHexValueEnabled() {
+		return mHexValueEnabled;
+	}
+	
+	private void updateHexLengthFilter() {
+		if (getAlphaSliderVisible())
+			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(9)});
+		else
+			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(7)});
 	}
 
 	private void updateHexValue(int color) {
@@ -144,12 +171,10 @@ public class ColorPickerDialog
 
 	public void setAlphaSliderVisible(boolean visible) {
 		mColorPicker.setAlphaSliderVisible(visible);
-		if (visible)
-			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(9)});
-		else
-			mHexVal.setFilters(new InputFilter[] {new InputFilter.LengthFilter(7)});
-		
-		updateHexValue(getColor());
+		if (mHexValueEnabled) {
+			updateHexLengthFilter();
+			updateHexValue(getColor());
+		}
 	}
 	
 	public boolean getAlphaSliderVisible() {

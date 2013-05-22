@@ -46,6 +46,7 @@ public class ColorPickerPreference
 	private int mValue = Color.BLACK;
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
+	private boolean mHexValueEnabled = false;
 
 	public ColorPickerPreference(Context context) {
 		super(context);
@@ -77,6 +78,7 @@ public class ColorPickerPreference
 		setOnPreferenceClickListener(this);
 		if (attrs != null) {
 			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
+			mHexValueEnabled = attrs.getAttributeBooleanValue(null, "hexValue", false);
 		}
 	}
 
@@ -155,6 +157,9 @@ public class ColorPickerPreference
 		if (mAlphaSliderEnabled) {
 			mDialog.setAlphaSliderVisible(true);
 		}
+		if (mHexValueEnabled) {
+			mDialog.setHexValueEnabled(true);
+		}
 		if (state != null) {
 			mDialog.onRestoreInstanceState(state);
 		}
@@ -167,6 +172,14 @@ public class ColorPickerPreference
 	 */
 	public void setAlphaSliderEnabled(boolean enable) {
 		mAlphaSliderEnabled = enable;
+	}
+
+	/**
+	 * Toggle Hex Value visibility (by default it's disabled)
+	 * @param enable
+	 */
+	public void setHexValueEnabled(boolean enable) {
+		mHexValueEnabled = enable;
 	}
 
 	/**
