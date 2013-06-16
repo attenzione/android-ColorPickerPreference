@@ -16,19 +16,24 @@
 
 package net.margaritov.preference.colorpicker;
 
+import java.util.Locale;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputFilter;
-import android.text.TextWatcher;
+import android.text.InputType;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class ColorPickerDialog 
 	extends 
@@ -43,7 +48,6 @@ public class ColorPickerDialog
 	private ColorPickerPanelView mNewColor;
 	
 	private EditText mHexVal;
-	private boolean mHexInternalTextChange;
 	private boolean mHexValueEnabled = false;
 	private ColorStateList mHexDefaultTextColor;
 
@@ -82,28 +86,31 @@ public class ColorPickerDialog
 		mNewColor = (ColorPickerPanelView) layout.findViewById(R.id.new_color_panel);
 		
 		mHexVal = (EditText) layout.findViewById(R.id.hex_val);
+		mHexVal.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
 		mHexDefaultTextColor = mHexVal.getTextColors();
-		mHexVal.addTextChangedListener(new TextWatcher() {
+		
+		mHexVal.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {}
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-			@Override
-			public void afterTextChanged(Editable s) {
-				if (mHexValueEnabled) {
-					if (mHexInternalTextChange) return;
-					
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_DONE) {
+					InputMethodManager imm = (InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+					imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+					String s = mHexVal.getText().toString();
 					if (s.length() > 5 || s.length() < 10) {
 						try {
 							int c = ColorPickerPreference.convertToColorInt(s.toString());
 							mColorPicker.setColor(c, true);
 							mHexVal.setTextColor(mHexDefaultTextColor);
-						} catch (NumberFormatException e) {
+						} catch (IllegalArgumentException e) {
 							mHexVal.setTextColor(Color.RED);
 						}
-					} else
+					} else {
 						mHexVal.setTextColor(Color.RED);
+					}
+					return true;
 				}
+				return false;
 			}
 		});
 		
@@ -161,12 +168,12 @@ public class ColorPickerDialog
 	}
 
 	private void updateHexValue(int color) {
-		mHexInternalTextChange = true;
-		if (getAlphaSliderVisible())
-			mHexVal.setText(ColorPickerPreference.convertToARGB(color));
-		else
-			mHexVal.setText(ColorPickerPreference.convertToRGB(color));
-		mHexInternalTextChange = false;
+		if (getAlphaSliderVisible()) {
+			mHexVal.setText(ColorPickerPreference.convertToARGB(color).toUpperCase(Locale.getDefault()));
+		} else {
+			mHexVal.setText(ColorPickerPreference.convertToRGB(color).toUpperCase(Locale.getDefault()));
+		}
+		mHexVal.setTextColor(mHexDefaultTextColor);
 	}
 
 	public void setAlphaSliderVisible(boolean visible) {

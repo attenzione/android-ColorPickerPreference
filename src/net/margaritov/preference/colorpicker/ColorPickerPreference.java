@@ -245,31 +245,14 @@ public class ColorPickerPreference
      * @throws NumberFormatException
      * @author Unknown
      */
-    public static int convertToColorInt(String argb) throws NumberFormatException {
+	public static int convertToColorInt(String argb) throws IllegalArgumentException {
 
-    	if (argb.startsWith("#")) {
-    		argb = argb.replace("#", "");
-    	}
+		if (!argb.startsWith("#")) {
+			argb = "#" + argb;
+		}
 
-        int alpha = -1, red = -1, green = -1, blue = -1;
-
-        if (argb.length() == 8) {
-            alpha = Integer.parseInt(argb.substring(0, 2), 16);
-            red = Integer.parseInt(argb.substring(2, 4), 16);
-            green = Integer.parseInt(argb.substring(4, 6), 16);
-            blue = Integer.parseInt(argb.substring(6, 8), 16);
-        }
-        else if (argb.length() == 6) {
-            alpha = 255;
-            red = Integer.parseInt(argb.substring(0, 2), 16);
-            green = Integer.parseInt(argb.substring(2, 4), 16);
-            blue = Integer.parseInt(argb.substring(4, 6), 16);
-        }
-        else
-        	throw new NumberFormatException("string " + argb + "did not meet length requirements");
-
-        return Color.argb(alpha, red, green, blue);
-    }
+		return Color.parseColor(argb);
+	}
     
     @Override
     protected Parcelable onSaveInstanceState() {
