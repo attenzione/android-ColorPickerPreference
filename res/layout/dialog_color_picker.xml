@@ -49,7 +49,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="HEX"
+            android:imeOptions="actionDone"
             android:maxLength="7"
+            android:singleLine="true"
+            android:inputType="textCapCharacters"
             android:visibility="gone" >
         </EditText>
     </LinearLayout>

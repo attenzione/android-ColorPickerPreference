@@ -39,7 +39,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="HEX"
+            android:imeOptions="actionDone"
             android:maxLength="7"
+            android:singleLine="true"
+            android:inputType="textCapCharacters"
             android:visibility="gone" >
         </EditText>
 
