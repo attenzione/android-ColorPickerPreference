@@ -1,4 +1,4 @@
-BREAKING 
+BREAKING! MAINTAINER REQUIRED
 ========
 latest year/two I comletely away from android development, so i need someone, who will take care of this library
 
