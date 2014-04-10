@@ -17,61 +17,75 @@
   /* Implemented ColorPicker in a Simple Activity, instead of PreferenceActivity.
    * Complete credit goes to the author. 
    * I just made changes to show ColorPicker in a Activity.  */
-package net.margaritov.preference.mycolorpicker;
+package net.margaritov.activity.colorpicker;
 
-import java.util.Locale;
-
+import net.margaritov.R;
 import net.margaritov.preference.colorpicker.AlphaPatternDrawable;
 import net.margaritov.preference.colorpicker.ColorPickerDialog;
-import net.margaritov.preference.colorpicker.ColorPickerPreference;
-import net.margaritov.preference.colorpicker.R;
+import net.margaritov.preference.colorpicker.ColorPickerPanelView;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-public class TestColorPicker extends Activity implements ColorPickerDialog.OnColorChangedListener{
+public class TestColorPickerActivity extends Activity implements ColorPickerDialog.OnColorChangedListener{
     /** Called when the activity is first created. */
 	
 	View mView;
 	ColorPickerDialog mDialog;
-	private int mValue = Color.BLACK;
+	private int mValue;
+	private int rgbColor = Color.BLACK, argbColor = Color.BLACK;//
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
 	private boolean mHexValueEnabled = false;
-	private Button btnPick;
+	private boolean isClickedPickColor = false;
+	
+	private Button btnPickColor;// to display RGB color
+	private ColorPickerPanelView panelShowAlphaSlider;//to dispplay Alpha color selected
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.colorpick);
-        init(this,null);//No alpha slider
+        setContentView(R.layout.test_colorpicker_activity);
+        init(this);
     }
 	
-	private void init(Context context, AttributeSet attrs) {
+	private void init(Context context) {
 		mDensity = context.getResources().getDisplayMetrics().density;
 
-		if (attrs != null) {
-			mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
-			mHexValueEnabled = attrs.getAttributeBooleanValue(null, "hexValue", false);
-		}
-		setPreviewColor();
-		btnPick=(Button)findViewById(R.id.button1);
+		btnPickColor=(Button)findViewById(R.id.panelPickColor);
+		panelShowAlphaSlider=(ColorPickerPanelView)findViewById(R.id.panelShowAlphaSlider);
 		
-		btnPick.setOnClickListener(new OnClickListener() {
+		btnPickColor.setOnClickListener(new OnClickListener() {//No alpha slider
 			@Override
 			public void onClick(View arg0) {
-				onButtonClick();
+				isClickedPickColor=true;
+				mAlphaSliderEnabled=false;
+				mValue=rgbColor;
+				setPreviewColor();
+				displayStandaloneColorPick();
 			}
 		});
+		
+		panelShowAlphaSlider.setOnClickListener(new OnClickListener() {//Show alpha slider
+			@Override
+			public void onClick(View arg0) {
+				isClickedPickColor=false;
+				mAlphaSliderEnabled=true;
+				mValue=argbColor;
+				setPreviewColor();
+				displayStandaloneColorPick();
+			}
+		});
+		
 	}
 
 	@SuppressWarnings("deprecation")
@@ -121,13 +135,17 @@ public class TestColorPicker extends Activity implements ColorPickerDialog.OnCol
 	
 	@Override
 	public void onColorChanged(int color) {
-		mValue = color;
-		btnPick.setText("Picked Color" +ColorPickerPreference.convertToRGB(color).toUpperCase(Locale.getDefault()));
-		btnPick.setBackgroundColor(color);
-	
+		mValue=color;
+		if(isClickedPickColor){
+			rgbColor = color;
+			btnPickColor.setBackgroundColor(color);	
+		}else{
+			argbColor=color;
+			panelShowAlphaSlider.setColor(color);
+		}
 	}
 	
-	public boolean onButtonClick() {
+	public boolean displayStandaloneColorPick() {
 		showDialog(null);
 		return false;
 	}

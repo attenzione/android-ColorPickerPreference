@@ -2,11 +2,17 @@
 <resources>
 	<!-- App -->
     <string name="hello">Hello World, Main!</string>
-    <string name="app_name">ColorPickerPreference</string>
+    <string name="app_name">ColorPicker</string>
+    
+    <string name="colorpicker_standalone">ColorPickerStandalone</string>
+    <string name="colorpicker_preference">ColorPickerPreference</string>
     
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>
-    <string name="press_color_to_apply">Press on Color to apply</string>    
+    <string name="press_color_to_apply">Press on Color to apply</string>
+     
+    <string name="Click_panel_to_Pick_color">Click on below panel to Pick Color</string>   
+    <string name="Click_panel_to_Pick_color_with_alpha">Click on below panel to Pick Color With Alpha</string>
     
     <!-- Preferences -->
     <string name="pref_category">Category</string>
