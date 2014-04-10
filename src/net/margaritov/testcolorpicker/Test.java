@@ -28,7 +28,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-
+//Test to show ColorPicker in a Simple Activity and Preference Activity.
 public class Test extends Activity {
     /** Called when the activity is first created. */
 	

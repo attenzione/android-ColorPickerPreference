@@ -34,7 +34,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
+//Test to show ColorPicker in a Activity.
 public class TestColorPickerActivity extends Activity implements ColorPickerDialog.OnColorChangedListener{
     /** Called when the activity is first created. */
 	
