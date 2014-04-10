@@ -41,7 +41,7 @@ public class TestColorPickerActivity extends Activity implements ColorPickerDial
 	View mView;
 	ColorPickerDialog mDialog;
 	private int mValue;
-	private int rgbColor = Color.BLACK, argbColor = Color.BLACK;//
+	private int rgbColor = Color.BLACK, argbColor = Color.BLACK;//initial color values
 	private float mDensity = 0;
 	private boolean mAlphaSliderEnabled = false;
 	private boolean mHexValueEnabled = false;
@@ -135,7 +135,6 @@ public class TestColorPickerActivity extends Activity implements ColorPickerDial
 	
 	@Override
 	public void onColorChanged(int color) {
-		mValue=color;
 		if(isClickedPickColor){
 			rgbColor = color;
 			btnPickColor.setBackgroundColor(color);	
