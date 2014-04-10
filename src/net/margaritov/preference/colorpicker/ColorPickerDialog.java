@@ -18,6 +18,7 @@ package net.margaritov.preference.colorpicker;
 
 import java.util.Locale;
 
+import net.margaritov.R;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
