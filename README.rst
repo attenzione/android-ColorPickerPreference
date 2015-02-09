@@ -1,7 +1,3 @@
-BREAKING! MAINTAINER REQUIRED
-========
-latest year/two I comletely away from android development, so i need someone, who will take care of this library
-
 =====================
 ColorPickerPreference
 =====================
@@ -9,6 +5,7 @@ ColorPickerPreference
 Generally used classes by Daniel Nilsson.
 ColorPickerPreference class by Sergey Margaritov.
 Packed by Sergey Margaritov.
+Packed again and made Gradle compatible by Vincent Fischer.
 
 Features
 ========
@@ -46,6 +43,6 @@ To enable Alpha Slider in your code use function:
 Screens
 =======
 
-* .. image:: https://github.com/attenzione/android-ColorPickerPreference/raw/master/screen_1.png
+* .. image:: https://github.com/C0br4/ColorPickerPreference/raw/master/screen_1.png
 
-* .. image:: https://github.com/attenzione/android-ColorPickerPreference/raw/master/screen_2.png
+* .. image:: https://github.com/C0br4/ColorPickerPreference/raw/master/screen_2.png
