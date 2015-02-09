@@ -28,7 +28,7 @@ You can see some tests inside
 
 ::
 
-    <net.margaritov.preference.colorpicker.ColorPickerPreference
+    <com.c0br4.preference.colorpicker.ColorPickerPreference
         android:key="color1"
         android:title="@string/color1_title"
         android:summary="@string/color1_summary"
