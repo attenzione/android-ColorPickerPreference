@@ -30,19 +30,19 @@ Android Studio
 1) Paste or clone this library into the ``/libs`` folder, in the root directory of your project. Create a new folder: ``/libs`` if not already present. (This step is not required - only for keeping cleaner project structure)
 2) Edit ``settings.gradle`` by adding the library. You have also define a project directory for the library. Your ``settings.gradle`` should look like below:
   ::
-  
-	include ':app', ':ColorPickerPreference'
-	project(':ColorPickerPreference').projectDir = new File('libs/ColorPickerPreference')
+
+    include ':app', ':ColorPickerPreference'
+    project(':ColorPickerPreference').projectDir = new File('libs/libs/ColorPickerPreference')
 
 3) In ``app/build.gradle`` add the ColorPickerPreference library as a dependency:
   ::
-  
-	dependencies {
-	    compile fileTree(dir: 'libs', include: ['*.jar'])
-	    compile 'com.android.support:appcompat-v7:21.0.3'
-	    compile project(":ColorPickerPreference")
-	}
-	
+
+    dependencies {
+        compile fileTree(dir: 'libs', include: ['*.jar'])
+        compile 'com.android.support:appcompat-v7:21.0.3'
+        compile project(":ColorPickerPreference")
+    }
+
 
 4) Sync project, clean and build. You can use the ``ColorPickerPreference`` library as part of your project now.
 
@@ -61,7 +61,7 @@ You can see some tests inside
 
 ::
 
-    <com.c0br4.preference.colorpicker.ColorPickerPreference
+    <net.margaritov.preference.colorpicker.ColorPickerPreference
         android:key="color1"
         android:title="@string/color1_title"
         android:summary="@string/color1_summary"
