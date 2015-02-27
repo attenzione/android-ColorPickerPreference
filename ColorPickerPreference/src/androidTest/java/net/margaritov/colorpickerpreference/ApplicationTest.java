@@ -1,4 +1,4 @@
-package com.c0br4.colorpickerpreference;
+package net.margaritov.colorpickerpreference;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

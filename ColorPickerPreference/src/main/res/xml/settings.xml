@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory android:title="@string/pref_category">
-        <com.c0br4.preference.colorpicker.ColorPickerPreference
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="color1"
             android:title="@string/color1_title"
             android:summary="@string/color1_summary"
             android:defaultValue="@integer/COLOR_BLACK" />
-        <com.c0br4.preference.colorpicker.ColorPickerPreference
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="color2"
             android:persistent="false"
             android:title="@string/color2_title"
             android:summary="@string/color2_summary"
             android:defaultValue="@integer/COLOR_GREEN" />
-        <com.c0br4.preference.colorpicker.ColorPickerPreference
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="color3"
             android:title="@string/color3_title"
             android:summary="@string/color3_summary"
             android:defaultValue="@integer/COLOR_GREEN"
             alphaSlider="true" />
-        <com.c0br4.preference.colorpicker.ColorPickerPreference
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="color4"
             android:persistent="false"
             android:title="@string/color4_title"

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.c0br4.preference.colorpicker;
+package net.margaritov.preference.colorpicker;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
