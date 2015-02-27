@@ -32,7 +32,7 @@ Android Studio
   ::
 
     include ':app', ':ColorPickerPreference'
-    project(':ColorPickerPreference').projectDir = new File('libs/libs/ColorPickerPreference')
+    project(':ColorPickerPreference').projectDir = new File('app/libs/ColorPickerPreference')
 
 3) In ``app/build.gradle`` add the ColorPickerPreference library as a dependency:
   ::
