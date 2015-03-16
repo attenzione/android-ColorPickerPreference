@@ -1,1 +1,2 @@
 include ':ColorPickerPreference'
+include ':Sample'
