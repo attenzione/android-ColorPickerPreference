@@ -27,6 +27,7 @@ import android.text.InputType;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -40,7 +41,7 @@ public class ColorPickerDialog
         Dialog
         implements
         ColorPickerView.OnColorChangedListener,
-        View.OnClickListener {
+        View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener {
 
     private ColorPickerView mColorPicker;
 
@@ -52,6 +53,20 @@ public class ColorPickerDialog
     private ColorStateList mHexDefaultTextColor;
 
     private OnColorChangedListener mListener;
+    private int mOrientation;
+    private View mLayout;
+
+    @Override
+    public void onGlobalLayout() {
+        if (getContext().getResources().getConfiguration().orientation != mOrientation) {
+            final int oldcolor = mOldColor.getColor();
+            final int newcolor = mNewColor.getColor();
+            mLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            setUp(oldcolor);
+            mNewColor.setColor(newcolor);
+            mColorPicker.setColor(newcolor);
+        }
+    }
 
     public interface OnColorChangedListener {
         public void onColorChanged(int color);
@@ -75,17 +90,19 @@ public class ColorPickerDialog
 
         LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View layout = inflater.inflate(R.layout.dialog_color_picker, null);
+        mLayout = inflater.inflate(R.layout.dialog_color_picker, null);
+        mLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
 
-        setContentView(layout);
+        mOrientation = getContext().getResources().getConfiguration().orientation;
+        setContentView(mLayout);
 
         setTitle(R.string.dialog_color_picker);
 
-        mColorPicker = (ColorPickerView) layout.findViewById(R.id.color_picker_view);
-        mOldColor = (ColorPickerPanelView) layout.findViewById(R.id.old_color_panel);
-        mNewColor = (ColorPickerPanelView) layout.findViewById(R.id.new_color_panel);
+        mColorPicker = (ColorPickerView) mLayout.findViewById(R.id.color_picker_view);
+        mOldColor = (ColorPickerPanelView) mLayout.findViewById(R.id.old_color_panel);
+        mNewColor = (ColorPickerPanelView) mLayout.findViewById(R.id.new_color_panel);
 
-        mHexVal = (EditText) layout.findViewById(R.id.hex_val);
+        mHexVal = (EditText) mLayout.findViewById(R.id.hex_val);
         mHexVal.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         mHexDefaultTextColor = mHexVal.getTextColors();
 
