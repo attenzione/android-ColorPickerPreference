@@ -64,9 +64,22 @@ public class ColorPickerPreference
         init(context, attrs);
     }
 
+    /**Method edited by
+     * @author Anna Berkovitch
+     * added functionality to accept hex string as defaultValue
+     * and to properly persist resources reference string, such as @color/someColor
+     * previously persisted 0*/
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getColor(index, Color.BLACK);
+        int colorInt;
+        String mHexDefaultValue = a.getString(index);
+        if (mHexDefaultValue != null && mHexDefaultValue.startsWith("#")) {
+            colorInt = convertToColorInt(mHexDefaultValue);
+            return colorInt;
+
+        } else {
+            return a.getColor(index, Color.BLACK);
+        }
     }
 
     @Override
@@ -217,7 +230,8 @@ public class ColorPickerPreference
     }
 
     /**
-     * For custom purposes. Not used by ColorPickerPreference
+     * Method currently used by onGetDefaultValue method to
+     * convert hex string provided in android:defaultValue to color integer.
      *
      * @param color
      * @return A string representing the hex value of color,
