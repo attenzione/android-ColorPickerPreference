@@ -66,7 +66,15 @@ public class ColorPickerPreference
 
     @Override
     protected Object onGetDefaultValue(TypedArray a, int index) {
-        return a.getColor(index, Color.BLACK);
+        int colorInt;
+        String mHexDefaultValue = a.getString(index);
+        if (mHexDefaultValue != null && mHexDefaultValue.startsWith("#")) {
+            colorInt = convertToColorInt(mHexDefaultValue);
+            return colorInt;
+
+        } else {
+            return a.getColor(index, Color.BLACK);
+        }
     }
 
     @Override
