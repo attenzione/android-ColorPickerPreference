@@ -68,7 +68,7 @@ public class ColorPickerPreference
     protected Object onGetDefaultValue(TypedArray a, int index) {
         int colorInt;
         String mHexDefaultValue = a.getString(index);
-        if (mHexDefaultValue != null) {
+        if (mHexDefaultValue != null && mHexDefaultValue.startsWith("#")) {
             colorInt = convertToColorInt(mHexDefaultValue);
             return colorInt;
 
