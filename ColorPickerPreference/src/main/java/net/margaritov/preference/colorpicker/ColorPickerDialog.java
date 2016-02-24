@@ -16,7 +16,7 @@
 
 package net.margaritov.preference.colorpicker;
 
-import android.app.Dialog;
+import android.support.v7.app.AppCompatDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -38,7 +38,7 @@ import java.util.Locale;
 
 public class ColorPickerDialog
         extends
-        Dialog
+        AppCompatDialog
         implements
         ColorPickerView.OnColorChangedListener,
         View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener {
