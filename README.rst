@@ -24,6 +24,14 @@ Tested with APIv7, but maybe will work with early versions
 Installation
 ===========
 
+Through Gradle
+--------------
+
+You can now install this through Gradle with a simple:
+  ::
+
+    compile 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
+
 Android Studio
 --------------
 
