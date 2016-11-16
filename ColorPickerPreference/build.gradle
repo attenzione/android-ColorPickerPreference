@@ -1,5 +1,29 @@
 apply plugin: 'com.android.library'
 
+ext {
+    bintrayRepo = 'android-ColorPickerPreference'
+    bintrayName = 'android-colorpickerpreference'
+
+    publishedGroupId = 'net.margaritov.preference.colorpicker.ColorPickerPreference'
+    libraryName = 'ColorPickerPreference'
+    artifact = 'ColorPickerPreference'
+
+    libraryDescription = 'ColorPickerPreference for android to create color picker in preferences. Project created as Library'
+
+    siteUrl = 'https://github.com/attenzione/android-ColorPickerPreference'
+    gitUrl = 'https://github.com/attenzione/android-ColorPickerPreference.git'
+
+    libraryVersion = '1.0.0'
+
+    developerId = 'attenzione'
+    developerName = 'Sergey Margaritov'
+    developerEmail = 'github@semar.in'
+
+    licenseName = 'The Apache Software License, Version 2.0'
+    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+    allLicenses = ["Apache-2.0"]
+}
+
 android {
     compileSdkVersion 21
     buildToolsVersion "21.1.2"
@@ -21,3 +45,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
+
+// Place it at the end of the file
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
+apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
