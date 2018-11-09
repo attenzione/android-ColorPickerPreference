@@ -1,0 +1,26 @@
+[
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\xml_settings.xml.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\src\\main\\res\\xml\\settings.xml"
+    },
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi_icon.png.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\src\\main\\res\\drawable-hdpi\\icon.png"
+    },
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\drawable-mdpi_icon.png.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\src\\main\\res\\drawable-mdpi\\icon.png"
+    },
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\drawable-ldpi_icon.png.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\src\\main\\res\\drawable-ldpi\\icon.png"
+    },
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\layout-land_dialog_color_picker.xml.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\ColorPickerPreference\\build\\intermediates\\packaged_res\\debug\\layout-land\\dialog_color_picker.xml"
+    },
+    {
+        "merged": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\res\\merged\\debug\\layout_dialog_color_picker.xml.flat",
+        "source": "D:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\ColorPickerPreference\\build\\intermediates\\packaged_res\\debug\\layout\\dialog_color_picker.xml"
+    }
+]

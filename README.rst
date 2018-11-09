@@ -30,7 +30,7 @@ Through Gradle
 You can now install this through Gradle with a simple:
   ::
 
-    compile 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
+    implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
 
 Android Studio
 --------------
@@ -46,9 +46,9 @@ Android Studio
   ::
 
     dependencies {
-        compile fileTree(dir: 'libs', include: ['*.jar'])
-        compile 'com.android.support:appcompat-v7:21.0.3'
-        compile project(":ColorPickerPreference")
+        implementation fileTree(dir: 'libs', include: ['*.jar'])
+        implementation 'com.android.support:appcompat-v7:21.0.3'
+        implementation project(":ColorPickerPreference")
     }
 
 
