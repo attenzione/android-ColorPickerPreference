@@ -1,4 +1,0 @@
-#Fri Nov 09 09:39:16 EAT 2018
-base.0=D\:\\Mysoftwares\\androidprojects\\android-ColorPickerPreference\\Sample\\build\\intermediates\\transforms\\dexMerger\\debug\\9
-path.0=classes.dex
-renamed.0=classes.dex
