@@ -7,3 +7,5 @@
 /.idea/libraries
 .DS_Store
 /build
+/Sample/build
+/ColorPickerPreference/build
