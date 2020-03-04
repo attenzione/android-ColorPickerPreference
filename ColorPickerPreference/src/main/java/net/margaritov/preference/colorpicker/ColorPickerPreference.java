@@ -31,7 +31,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 /**
- * A preference type that allows a user to choose a time
+ * A preference type that allows a user to choose a color
  *
  * @author Sergey Margaritov
  */
