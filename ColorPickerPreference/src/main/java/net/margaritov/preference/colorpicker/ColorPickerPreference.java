@@ -24,11 +24,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import androidx.preference.Preference;
+import androidx.preference.PreferenceViewHolder;
 
 /**
  * A preference type that allows a user to choose a color
@@ -97,9 +99,10 @@ public class ColorPickerPreference
     }
 
     @Override
-    protected void onBindView(View view) {
-        super.onBindView(view);
-        mView = view;
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+        super.onBindViewHolder(holder);
+
+        mView = holder.itemView;
         setPreviewColor();
     }
 

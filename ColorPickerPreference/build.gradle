@@ -28,7 +28,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "androidx.preference:preference:1.1.0"
 }
 
 // Place it at the end of the file

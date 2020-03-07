@@ -6,6 +6,7 @@
         android:icon="@drawable/icon"
         android:label="@string/app_name">
         <activity
+            android:theme="@style/Theme.AppCompat"
             android:name="net.margaritov.preference.colorpicker.Test"
             android:label="@string/app_name">
             <intent-filter>

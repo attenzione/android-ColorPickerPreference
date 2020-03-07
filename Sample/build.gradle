@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
 
     defaultConfig {
-        minSdkVersion 7
+        minSdkVersion 14
         targetSdkVersion 28
         multiDexEnabled true
     }
@@ -13,4 +13,7 @@ android {
 
 dependencies {
     implementation project(':ColorPickerPreference')
+    implementation "androidx.appcompat:appcompat:1.1.0"
+    implementation "androidx.preference:preference:1.1.0"
+
 }
