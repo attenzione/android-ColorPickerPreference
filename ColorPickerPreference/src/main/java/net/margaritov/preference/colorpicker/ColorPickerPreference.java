@@ -169,7 +169,7 @@ public class ColorPickerPreference
     }
 
     protected void showDialog(Bundle state) {
-        mDialog = new ColorPickerDialog(getContext(), mValue);
+        mDialog = new ColorPickerDialog(getContext(), mValue, getTitle().toString());
         mDialog.setOnColorChangedListener(this);
         if (mAlphaSliderEnabled) {
             mDialog.setAlphaSliderVisible(true);

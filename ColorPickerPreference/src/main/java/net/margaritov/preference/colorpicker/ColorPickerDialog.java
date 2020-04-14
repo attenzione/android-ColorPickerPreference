@@ -16,7 +16,6 @@
 
 package net.margaritov.preference.colorpicker;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -34,11 +33,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatDialog;
+
 import java.util.Locale;
 
 public class ColorPickerDialog
         extends
-        Dialog
+        AppCompatDialog
         implements
         ColorPickerView.OnColorChangedListener,
         View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener {
@@ -56,6 +57,8 @@ public class ColorPickerDialog
     private int mOrientation;
     private View mLayout;
 
+    private String mTitle;
+
     @Override
     public void onGlobalLayout() {
         if (getContext().getResources().getConfiguration().orientation != mOrientation) {
@@ -72,9 +75,10 @@ public class ColorPickerDialog
         public void onColorChanged(int color);
     }
 
-    public ColorPickerDialog(Context context, int initialColor) {
+    public ColorPickerDialog(Context context, int initialColor, String title) {
         super(context);
 
+        mTitle = title;
         init(initialColor);
     }
 
@@ -96,7 +100,7 @@ public class ColorPickerDialog
         mOrientation = getContext().getResources().getConfiguration().orientation;
         setContentView(mLayout);
 
-        setTitle(R.string.dialog_color_picker);
+        setTitle(mTitle);
 
         mColorPicker = (ColorPickerView) mLayout.findViewById(R.id.color_picker_view);
         mOldColor = (ColorPickerPanelView) mLayout.findViewById(R.id.old_color_panel);
