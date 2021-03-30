@@ -16,56 +16,34 @@ Features
 * Old & New Color
 * Color Preview in Preferences List
 
+
 Requirements
 ============
 
-Tested with APIv7, but maybe will work with early versions
+- AndroidX Preference 1.1.0 (or higher)
+
 
 Installation
 ===========
 
 Through Gradle
 --------------
-
-You can now install this through Gradle with a simple:
+Add this to your repository blocks in your root build.gradle:
   ::
 
-    implementation 'net.margaritov.preference.colorpicker.ColorPickerPreference:ColorPickerPreference:1.0.0'
+    maven { url "https://jitpack.io" }
 
-Android Studio
---------------
 
-1) Paste or clone this library into the ``/libs`` folder, in the root directory of your project. Create a new folder: ``/libs`` if not already present. (This step is not required - only for keeping cleaner project structure)
-2) Edit ``settings.gradle`` by adding the library. You have also define a project directory for the library. Your ``settings.gradle`` should look like below:
+And then add this to your submodule's dependencies block:
   ::
 
-    include ':app', ':ColorPickerPreference'
-    project(':ColorPickerPreference').projectDir = new File('app/libs/ColorPickerPreference')
+    implementation 'com.github.attenzione:android-ColorPickerPreference:x.y.z'
 
-3) In ``app/build.gradle`` add the ColorPickerPreference library as a dependency:
-  ::
-
-    dependencies {
-        implementation fileTree(dir: 'libs', include: ['*.jar'])
-        implementation 'com.android.support:appcompat-v7:21.0.3'
-        implementation project(":ColorPickerPreference")
-    }
-
-
-4) Sync project, clean and build. You can use the ``ColorPickerPreference`` library as part of your project now.
-
-Eclipse
--------
-
-1) Before you can add a ``ColorPickerPreference`` to your application, you must first add a library reference:
-2) Clone or download a copy of the library
-3) Import the library into Eclipse: File menu -> Import -> Existing Project into Workspace
-4) Open your application's project properties and add a library reference to ``ColorPickerPreference``
 
 Usage
 =====
 
-You can see some tests inside
+Here is an example:
 
 ::
 
@@ -77,9 +55,10 @@ You can see some tests inside
         alphaSlider="true"                              <!-- enable alpha slider via XML -->
     />
 
-To enable Alpha Slider in your code use function:
+To enable Alpha Slider in your code, use this function:
 ::
     setAlphaSliderEnabled(boolean enable)
+
 
 Screens
 =======
