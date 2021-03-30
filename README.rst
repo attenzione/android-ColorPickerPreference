@@ -20,7 +20,7 @@ Features
 Requirements
 ============
 
-- AndroidX Preference 1.1.0 (or higher)
+- AndroidX Preference 1.1.1 (or higher)
 
 
 Installation
