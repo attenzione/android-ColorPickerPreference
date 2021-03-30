@@ -1,51 +1,20 @@
 apply plugin: 'com.android.library'
 
-ext {
-    bintrayRepo = 'android-ColorPickerPreference'
-    bintrayName = 'android-colorpickerpreference'
-
-    publishedGroupId = 'net.margaritov.preference.colorpicker.ColorPickerPreference'
-    libraryName = 'ColorPickerPreference'
-    artifact = 'ColorPickerPreference'
-
-    libraryDescription = 'ColorPickerPreference for android to create color picker in preferences. Project created as Library'
-
-    siteUrl = 'https://github.com/attenzione/android-ColorPickerPreference'
-    gitUrl = 'https://github.com/attenzione/android-ColorPickerPreference.git'
-
-    libraryVersion = '1.0.0'
-
-    developerId = 'attenzione'
-    developerName = 'Sergey Margaritov'
-    developerEmail = 'github@semar.in'
-
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
 android {
     compileSdkVersion 28
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
-        minSdkVersion 14
+        minSdkVersion 16
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
     }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    compileOptions {
+        encoding "UTF-8"
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation "androidx.preference:preference:1.1.0"
+    implementation 'androidx.preference:preference:1.1.0'
 }
-
-// Place it at the end of the file
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/nuuneoi/JCenter/master/bintrayv1.gradle'
