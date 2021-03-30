@@ -136,7 +136,7 @@ public class ColorPickerView extends View {
     private Point mStartTouchPoint = null;
 
     public interface OnColorChangedListener {
-        public void onColorChanged(int color);
+        void onColorChanged(int color);
     }
 
     public ColorPickerView(Context context) {
@@ -327,7 +327,7 @@ public class ColorPickerView extends View {
 
         canvas.drawRect(rect, mAlphaPaint);
 
-        if (mAlphaSliderText != null && mAlphaSliderText != "") {
+        if (mAlphaSliderText != null && !mAlphaSliderText.isEmpty()) {
             canvas.drawText(mAlphaSliderText, rect.centerX(), rect.centerY() + 4 * mDensity, mAlphaTextPaint);
         }
 
@@ -468,10 +468,8 @@ public class ColorPickerView extends View {
 
                 case PANEL_SAT_VAL:
 
-                    float sat, val;
-
-                    sat = mSat + x / 50f;
-                    val = mVal - y / 50f;
+                    float sat = mSat + x / 50f;
+                    float val = mVal - y / 50f;
 
                     if (sat < 0f) {
                         sat = 0f;
@@ -679,7 +677,7 @@ public class ColorPickerView extends View {
         if (mode == MeasureSpec.AT_MOST || mode == MeasureSpec.EXACTLY) {
             return size;
         } else { // (mode == MeasureSpec.UNSPECIFIED)
-            return getPrefferedWidth();
+            return getPreferredWidth();
         }
     }
 
@@ -687,13 +685,13 @@ public class ColorPickerView extends View {
         if (mode == MeasureSpec.AT_MOST || mode == MeasureSpec.EXACTLY) {
             return size;
         } else { // (mode == MeasureSpec.UNSPECIFIED)
-            return getPrefferedHeight();
+            return getPreferredHeight();
         }
     }
 
-    private int getPrefferedWidth() {
+    private int getPreferredWidth() {
 
-        int width = getPrefferedHeight();
+        int width = getPreferredHeight();
 
         if (mShowAlphaPanel) {
             width -= (PANEL_SPACING + ALPHA_PANEL_HEIGHT);
@@ -704,7 +702,7 @@ public class ColorPickerView extends View {
 
     }
 
-    private int getPrefferedHeight() {
+    private int getPreferredHeight() {
 
         int height = (int) (200 * mDensity);
 

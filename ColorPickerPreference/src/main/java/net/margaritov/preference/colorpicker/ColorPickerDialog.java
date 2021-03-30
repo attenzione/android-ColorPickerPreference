@@ -33,6 +33,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialog;
 
 import java.util.Locale;
@@ -57,14 +58,14 @@ public class ColorPickerDialog
     private int mOrientation;
     private View mLayout;
 
-    private String mTitle;
+    private final String mTitle;
 
     @Override
     public void onGlobalLayout() {
         if (getContext().getResources().getConfiguration().orientation != mOrientation) {
             final int oldcolor = mOldColor.getColor();
             final int newcolor = mNewColor.getColor();
-            mLayout.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+            mLayout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             setUp(oldcolor);
             mNewColor.setColor(newcolor);
             mColorPicker.setColor(newcolor);
@@ -72,7 +73,7 @@ public class ColorPickerDialog
     }
 
     public interface OnColorChangedListener {
-        public void onColorChanged(int color);
+        void onColorChanged(int color);
     }
 
     public ColorPickerDialog(Context context, int initialColor, String title) {
@@ -92,7 +93,7 @@ public class ColorPickerDialog
 
     private void setUp(int color) {
 
-        LayoutInflater inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = LayoutInflater.from(getContext());
 
         mLayout = inflater.inflate(R.layout.dialog_color_picker, null);
         mLayout.getViewTreeObserver().addOnGlobalLayoutListener(this);
@@ -102,11 +103,11 @@ public class ColorPickerDialog
 
         setTitle(mTitle);
 
-        mColorPicker = (ColorPickerView) mLayout.findViewById(R.id.color_picker_view);
-        mOldColor = (ColorPickerPanelView) mLayout.findViewById(R.id.old_color_panel);
-        mNewColor = (ColorPickerPanelView) mLayout.findViewById(R.id.new_color_panel);
+        mColorPicker = mLayout.findViewById(R.id.color_picker_view);
+        mOldColor = mLayout.findViewById(R.id.old_color_panel);
+        mNewColor = mLayout.findViewById(R.id.new_color_panel);
 
-        mHexVal = (EditText) mLayout.findViewById(R.id.hex_val);
+        mHexVal = mLayout.findViewById(R.id.hex_val);
         mHexVal.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS);
         mHexDefaultTextColor = mHexVal.getTextColors();
 
@@ -120,7 +121,7 @@ public class ColorPickerDialog
                     String s = mHexVal.getText().toString();
                     if (s.length() > 5 || s.length() < 10) {
                         try {
-                            int c = ColorPickerPreference.convertToColorInt(s.toString());
+                            int c = ColorPickerPreference.convertToColorInt(s);
                             mColorPicker.setColor(c, true);
                             mHexVal.setTextColor(mHexDefaultTextColor);
                         } catch (IllegalArgumentException e) {
@@ -232,6 +233,7 @@ public class ColorPickerDialog
         dismiss();
     }
 
+    @NonNull
     @Override
     public Bundle onSaveInstanceState() {
         Bundle state = super.onSaveInstanceState();
@@ -241,7 +243,7 @@ public class ColorPickerDialog
     }
 
     @Override
-    public void onRestoreInstanceState(Bundle savedInstanceState) {
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         mOldColor.setColor(savedInstanceState.getInt("old_color"));
         mColorPicker.setColor(savedInstanceState.getInt("new_color"), true);

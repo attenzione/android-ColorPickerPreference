@@ -90,7 +90,7 @@ public class ColorPickerPreference
     }
 
     private void init(Context context, AttributeSet attrs) {
-        mDensity = getContext().getResources().getDisplayMetrics().density;
+        mDensity = context.getResources().getDisplayMetrics().density;
         setOnPreferenceClickListener(this);
         if (attrs != null) {
             mAlphaSliderEnabled = attrs.getAttributeBooleanValue(null, "alphaSlider", false);
@@ -109,7 +109,7 @@ public class ColorPickerPreference
     private void setPreviewColor() {
         if (mView == null) return;
         ImageView iView = new ImageView(getContext());
-        LinearLayout widgetFrameView = ((LinearLayout) mView.findViewById(android.R.id.widget_frame));
+        LinearLayout widgetFrameView = mView.findViewById(android.R.id.widget_frame);
         if (widgetFrameView == null) return;
         widgetFrameView.setVisibility(View.VISIBLE);
         widgetFrameView.setPadding(
@@ -125,7 +125,7 @@ public class ColorPickerPreference
         }
         widgetFrameView.addView(iView);
         widgetFrameView.setMinimumWidth(0);
-        iView.setBackgroundDrawable(new AlphaPatternDrawable((int) (5 * mDensity)));
+        iView.setBackground(new AlphaPatternDrawable((int) (5 * mDensity)));
         iView.setImageBitmap(getPreviewBitmap());
     }
 
@@ -202,7 +202,7 @@ public class ColorPickerPreference
     }
 
     /**
-     * For custom purposes. Not used by ColorPickerPreferrence
+     * For custom purposes. Not used by ColorPickerPreference
      *
      * @param color
      * @author Unknown
@@ -262,7 +262,7 @@ public class ColorPickerPreference
     }
 
     /**
-     * For custom purposes. Not used by ColorPickerPreferrence
+     * For custom purposes. Not used by ColorPickerPreference
      *
      * @param argb
      * @throws NumberFormatException
@@ -307,7 +307,7 @@ public class ColorPickerPreference
 
         public SavedState(Parcel source) {
             super(source);
-            dialogBundle = source.readBundle();
+            dialogBundle = source.readBundle(getClass().getClassLoader());
         }
 
         @Override
@@ -320,7 +320,6 @@ public class ColorPickerPreference
             super(superState);
         }
 
-        @SuppressWarnings("unused")
         public static final Parcelable.Creator<SavedState> CREATOR =
                 new Parcelable.Creator<SavedState>() {
                     public SavedState createFromParcel(Parcel in) {
