@@ -29,5 +29,10 @@ public class Test extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.test);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.settings_container, new TestPreferenceFragment())
+                .commit();
     }
 }

@@ -5,6 +5,7 @@ android {
     buildToolsVersion "30.0.3"
 
     defaultConfig {
+        applicationId "net.margaritov.preference.colorpicker.sample"
         minSdkVersion 16
         targetSdkVersion 28
         multiDexEnabled true

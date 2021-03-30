@@ -2,7 +2,7 @@
 <resources>
     <!-- App -->
     <string name="hello">Hello World, Main!</string>
-    <string name="app_name">ColorPickerPreference</string>
+    <string name="app_name">ColorPickerPreference Sample</string>
 
     <!-- Preferences -->
     <string name="pref_category">Category</string>
